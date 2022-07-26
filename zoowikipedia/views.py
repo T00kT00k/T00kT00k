@@ -19,15 +19,13 @@ def index(request):
 
     # Словарь
     context = {
-        'classis': classis, #post
+        'classis': classis,
         'menu': menu,
         'title': 'Главная страница',
-        'classis_selected': 0, #cat_selected
+        'classis_selected': 0,
     }
-    #women/index.html
+
     return render(request, 'zoowikipedia/index.html', context=context)
-
-
 
 # Страница с информацией о сайте
 def about(request):
@@ -48,33 +46,49 @@ def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
 # Показывает пост о классе животных
-def show_classis(request, classis_id):
-    classis = get_object_or_404(Classis, pk=classis_id)
+def show_classis(request, classis_post_id):
+    post = get_object_or_404(Classis, pk=classis_post_id)
+    classis = Classis.objects.all()
 
     # Словарь
     context = {
-        'classis': classis,  # post
+        'post': post,  # post
+        'classis': classis,
         'menu': menu,
-        'title': classis.name,
-        'classis_selected': classis.pk,  # cat_selected
+        'title': post.name,
+        'classis_selected': post.pk,  # cat_selected
     }
     # women/index.html
     return render(request, 'zoowikipedia/classis_post.html', context=context)
 
-# Показывает список постов об отрядах, принадлежащих выбранному классу
-#show_cathegory
-#def show_classis(request, classis_id):
-    #women
-#    posts = Ordo.objects.filter(classis_id=classis_id) #classis_id
+# Список отрядов животных выбранного класса
+def list_ordo(request, classis_list_id):
+    ordo = Ordo.objects.filter(classis_id=classis_list_id)
+    classis = Classis.objects.all()
 
-#    if len(posts) == 0:
-#        raise Http404()
+    context = {
+        'ordo': ordo,
+        'classis': classis,
+        'menu': menu,
+        'title': 'Отображение по классам',
+        'classis_selected': classis_list_id
+    }
 
-    #Словарь
-#    context = {
-#        'ordo': posts,
-#        'menu': menu,
-#        'title': 'Отображение отрядов в классе',
-#        'classis_selected': classis_id,
-#    }
-#    return render(request, 'zoowikipedia/index.html', context=context)
+    return render(request, 'zoowikipedia/list_ordo.html', context=context)
+
+# Показывает пост о классе животных
+def show_ordo(request, ordo_id, classis_id):
+    post = get_object_or_404(Ordo, pk=ordo_id)
+    classis = Classis.objects.all()
+
+    # Словарь
+    context = {
+        'post': post,  # post
+        'classis': classis,
+        'menu': menu,
+        'title': post.name,
+        'ordo_selected': post.pk,  # cat_selected
+    }
+    # women/index.html
+    return render(request, 'zoowikipedia/ordo_post.html', context=context)
+

@@ -65,14 +65,20 @@
 
 
 								<ul id="leftchapters">
-									<li class="selected">Все категории</li>
-									<!--{% if classis_selected == 0 %}
+
+									{% if classis_selected == 0 %}
 										<li class = "selected"> Все классы </li>
 									{% else %}
 										<li><a href="{% url 'home' %}"> Все классы </a></li>
 									{% endif %}
 
-									-->
+									{% for c in classis %}
+										{% if c.pk == classis_selected %}
+											<li class="selected">{{c.name}}</li>
+										{% else %}
+											<li><a href="{{ c.get_absolute_url2 }}">{{c.name}}</a></li>
+										{% endif %}
+									{% endfor %}
 
 								</ul>
 							</td>																								<!--Конец строки 1 столбца 1 таблицы 2-->

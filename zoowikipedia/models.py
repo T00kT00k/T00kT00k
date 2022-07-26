@@ -6,11 +6,15 @@ from django.urls import reverse
 class Classis(models.Model):
     name = models.TextField('Название класса')
     info = models.TextField('Описание класса', blank=True)
+
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('classis', kwargs={'classis_id': self.pk})
+    def get_absolute_url1(self):
+        return reverse('classis_post', kwargs={'classis_post_id': self.pk})
+
+    def get_absolute_url2(self):
+        return reverse('classis_list', kwargs={'classis_list_id': self.pk})
 
     class Meta:
         verbose_name = 'Класс животных'
@@ -26,7 +30,7 @@ class Ordo(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('ordo', kwargs={'ordo_id': self.pk})
+        return reverse('ordo_post', kwargs={'ordo_id': self.pk, 'classis_id': self.classis.id})
 
     class Meta:
         verbose_name = 'Отряд животных'
