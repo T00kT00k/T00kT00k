@@ -43,3 +43,17 @@ class AddFamiliaForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
         }
+
+# Форма заполнения информации для класса Genus
+class AddGenusForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['familia'].empty_label = "Категория не выбрана"
+
+    class Meta:
+        model = Genus
+        fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }

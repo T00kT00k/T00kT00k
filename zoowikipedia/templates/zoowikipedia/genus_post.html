@@ -1,0 +1,24 @@
+{% extends 'zoowikipedia/base.html' %}
+{% load zoowikipedia_tags %}
+
+{% block sidebar %}
+    <td valign="top" class="left-chapters">
+        <ul id="leftchapters">
+            {% if familia_selected == 0 %}
+                <li class="selected">Все категории</li>
+            {% else %}
+                <li><a href="{% url 'home' %}">Все категории</a></li>
+            {% endif %}
+
+            {% getfam as familia %}
+
+            <!--									Тег, выводящий классы на sidebar слева-->
+            {% show_families familia_selected=familia_selected %}
+        </ul>
+    </td>
+{% endblock %}
+
+{% block content %}
+    <h1>{{post.name}}</h1>
+	{{post.info|linebreaks}}
+{% endblock %}

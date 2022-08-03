@@ -20,6 +20,13 @@ def get_ordo(filter=None):
    else:
        return Ordo.objects.filter(pk=filter)
 
+@register.simple_tag(name='getfam')
+def get_familia(filter=None):
+   if not filter:
+       return Familia.objects.all()
+   else:
+       return Familia.objects.filter(pk=filter)
+
 # Теги, с помощью которых можно возвращать фрагмент html-страницы
 # {% show_classises %} - вывод фрагмента без изменений
 # {% show_classises '-name' classis_selected %} - задается сортировка по имени в обратном порядке
@@ -40,3 +47,12 @@ def show_ordoes(sort=None, ordo_selected=0):
        ordo = Ordo.objects.order_by(sort)
 
    return {"ordo": ordo, "ordo_selected": ordo_selected}
+
+@register.inclusion_tag('zoowikipedia/sidebar_list_familia.html')
+def show_families(sort=None, familia_selected=0):
+   if not sort:
+       familia = Familia.objects.all()
+   else:
+       familia = Familia.objects.order_by(sort)
+
+   return {"familia": familia, "familia_selected": familia_selected}

@@ -1,0 +1,7 @@
+{% for f in familia %}
+    {% if f.pk == familia_selected %}
+        <li class="selected">{{f.name}}</li>
+    {% else %}
+        <li><a href="{{ f.get_absolute_url_familia2 }}">{{f.name}}</a></li>
+    {% endif %}
+{% endfor %}

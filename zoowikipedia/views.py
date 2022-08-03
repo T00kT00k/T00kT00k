@@ -14,6 +14,7 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
 action_menu = [{'title': "Добавить новый класс", 'url_name': "create_classis"},
                {'title': "Добавить новый отряд", 'url_name': "create_ordo"},
                {'title': "Добавить новое семейство", 'url_name': "create_familia"},
+               {'title': "Добавить новый род", 'url_name': "create_genus"},
 ]
 
 backtomain = ["Вернуться на главную страницу"]
@@ -46,7 +47,6 @@ def actionPage(request):
         'menu': menu,
         'title': 'Выбор объекта',
         'action_menu': action_menu,
-        # 'classis_selected': 0,
     }
     return render(request, 'zoowikipedia/action.html', context=context)
 
@@ -83,6 +83,17 @@ def addFamilia(request):
         form = AddFamiliaForm()
     return render(request, 'zoowikipedia/create_familia.html', {'form': form, 'menu': menu, 'title': 'Добавление семейства'})
 
+# Добавление информации о роде на сайт
+def addGenus(request):
+    if request.method == 'POST':
+        form = AddGenusForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = AddGenusForm()
+    return render(request, 'zoowikipedia/create_genus.html', {'form': form, 'menu': menu, 'title': 'Добавление рода'})
+
 
 # Удаление поста о классе
 def delClassis(request, id):
@@ -110,6 +121,15 @@ def delFamilia(request, id, ordo_list_id):
         return redirect('home')
     except Familia.DoesNotExist:
         return HttpResponseNotFound("<h2>Familia not found</h2>")
+
+# Удаление поста о роде
+def delGenus(request, id, familia_list_id):
+    try:
+        form = Genus.objects.get(id=id)
+        form.delete()
+        return redirect('home')
+    except Genus.DoesNotExist:
+        return HttpResponseNotFound("<h2>Genus not found</h2>")
 
 # Редактирование поста о классе
 def editClassis(request, id):
@@ -160,6 +180,23 @@ def editFamilia(request, id, ordo_list_id, classis_list_id):
             return render(request, "familia_edit.html", {'form': form})
     except Familia.DoesNotExist:
         return HttpResponseNotFound("<h2>Familia not found</h2>")
+
+# Редактирование поста о роде
+def editGenus(request, id, familia_list_id, ordo_list_id, classis_list_id):
+    try:
+        form = Genus.objects.get(id=id)
+        if request.method == "POST":
+            form = AddGenusForm(request.POST, instance=form)
+            form.name = request.POST.get("name")
+            form.info = request.POST.get("info")
+            form.familia = request.POST.get("ordo")
+            form.save()
+            return redirect('home')
+        else:
+            form = AddGenusForm(instance=form)
+            return render(request, "genus_edit.html", {'form': form})
+    except Genus.DoesNotExist:
+        return HttpResponseNotFound("<h2>Genus not found</h2>")
 
 # Информационная страница "Страница не найдена"
 def pageNotFound(request, exception):
@@ -218,7 +255,7 @@ def list_familia(request, ordo_list_id, classis_id):
     }
     return render(request, 'zoowikipedia/list_familia.html', context=context)
 
-# Показывает пост об отряде животных
+# Показывает пост о семействе животных
 def show_familia(request, familia_post_id, ordo_id, classis_id):
     post = get_object_or_404(Familia, pk=familia_post_id)
 
@@ -230,4 +267,29 @@ def show_familia(request, familia_post_id, ordo_id, classis_id):
         'familia_selected': post.pk,
     }
     return render(request, 'zoowikipedia/familia_post.html', context=context)
+
+# Список родов животных на главном экране
+def list_genus(request, familia_list_id, ordo_id, classis_id):
+    genus = Genus.objects.filter(familia_id=familia_list_id)
+
+    context = {
+        'genus': genus,
+        'menu': menu,
+        'title': 'Отображение по классам',
+        'familia_selected': familia_list_id
+    }
+    return render(request, 'zoowikipedia/list_genus.html', context=context)
+
+# Показывает пост о роде животных
+def show_genus(request, genus_post_id, familia_id, ordo_id, classis_id):
+    post = get_object_or_404(Genus, pk=genus_post_id)
+
+    # Словарь
+    context = {
+        'post': post,
+        'menu': menu,
+        'title': post.name,
+        'genus_selected': post.pk,
+    }
+    return render(request, 'zoowikipedia/genus_post.html', context=context)
 

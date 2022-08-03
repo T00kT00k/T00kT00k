@@ -18,21 +18,21 @@
 
 {% block content %}
     <ul class="list-articles">
-        {% for f in familia %}
+        {% for g in genus %}
         <li>
             <br>
-            <div class="link-edit-post"><a href="edit_familia/{{f.id}}">Изменить</a></div>
-            <div class="circle"><a href="delete_familia/{{f.id}}">x</a></div>
+            <div class="link-edit-post"><a href="edit_genus/{{g.id}}">Изменить</a></div>
+            <div class="circle"><a href="delete_genus/{{g.id}}">x</a></div>
             <div class="clear"></div>
 
 
-            <h2>{{f.name}}</h2>
+            <h2>{{g.name}}</h2>
             {% autoescape on %}
-            {{f.info|linebreaks|truncatewords:50}}
+            {{g.info|linebreaks|truncatewords:50}}
             {% endautoescape %}
             <div class="clear"></div>
 
-            <p class="link-read-post"><a href="{{ f.get_absolute_url_familia1 }}">Читать пост</a></p>
+            <p class="link-read-post"><a href="{{ g.get_absolute_url_genus1 }}">Читать пост</a></p>
         </li>
         {% endfor %}
     </ul>
