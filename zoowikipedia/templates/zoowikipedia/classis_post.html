@@ -1,6 +1,25 @@
 {% extends 'zoowikipedia/base.html' %}
+{% load zoowikipedia_tags %}
+
+{% block sidebar %}
+    <td valign="top" class="left-chapters">
+        <ul id="leftchapters">
+            {% if classis_selected == 0 %}
+                <li class="selected">Все категории</li>
+            {% else %}
+                <li><a href="{% url 'home' %}">Все категории</a></li>
+            {% endif %}
+
+            {% getclass as classis %}
+
+            <!--									Тег, выводящий классы на sidebar слева-->
+            {% show_classises classis_selected=classis_selected %}
+        </ul>
+    </td>
+{% endblock %}
 
 {% block content %}
+    {% getclass as classis %}
     <h1>{{post.name}}</h1>
 	{{post.info|linebreaks}}
 {% endblock %}

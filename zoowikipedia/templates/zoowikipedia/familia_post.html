@@ -4,16 +4,16 @@
 {% block sidebar %}
     <td valign="top" class="left-chapters">
         <ul id="leftchapters">
-            {% if classis_selected == 0 %}
+            {% if ordo_selected == 0 %}
                 <li class="selected">Все категории</li>
             {% else %}
                 <li><a href="{% url 'home' %}">Все категории</a></li>
             {% endif %}
 
-            {% getclass as classis %}
+            {% getordo as ordo %}
 
             <!--									Тег, выводящий классы на sidebar слева-->
-            {% show_classises classis_selected=classis_selected %}
+            {% show_ordoes ordo_selected=ordo_selected %}
         </ul>
     </td>
 {% endblock %}

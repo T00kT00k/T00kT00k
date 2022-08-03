@@ -13,10 +13,17 @@ def get_classis(filter=None):
    else:
        return Classis.objects.filter(pk=filter)
 
+@register.simple_tag(name='getordo')
+def get_ordo(filter=None):
+   if not filter:
+       return Ordo.objects.all()
+   else:
+       return Ordo.objects.filter(pk=filter)
+
 # Теги, с помощью которых можно возвращать фрагмент html-страницы
 # {% show_classises %} - вывод фрагмента без изменений
 # {% show_classises '-name' classis_selected %} - задается сортировка по имени в обратном порядке
-@register.inclusion_tag('zoowikipedia/list_classis.html')
+@register.inclusion_tag('zoowikipedia/sidebar_list_classis.html')
 def show_classises(sort=None, classis_selected=0):
    if not sort:
        classis = Classis.objects.all()
@@ -24,3 +31,12 @@ def show_classises(sort=None, classis_selected=0):
        classis = Classis.objects.order_by(sort)
 
    return {"classis": classis, "classis_selected": classis_selected}
+
+@register.inclusion_tag('zoowikipedia/sidebar_list_ordo.html')
+def show_ordoes(sort=None, ordo_selected=0):
+   if not sort:
+       ordo = Ordo.objects.all()
+   else:
+       ordo = Ordo.objects.order_by(sort)
+
+   return {"ordo": ordo, "ordo_selected": ordo_selected}

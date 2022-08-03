@@ -10,14 +10,11 @@ class Classis(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):  # Тут мы создали новый метод
-        return reverse('post_detail', args=[str(self.id)])
-
-    def get_absolute_url1(self):
+    def get_absolute_url_classis1(self):
         return reverse('classis_post', kwargs={'classis_post_id': self.pk})
 
-    def get_absolute_url2(self):
-        return reverse('classis_list', kwargs={'classis_list_id': self.pk})
+    def get_absolute_url_classis2(self):
+        return reverse('sidebar_classis_list', kwargs={'classis_list_id': self.pk})
 
     class Meta:
         verbose_name = 'Класс животных'
@@ -32,10 +29,30 @@ class Ordo(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('ordo_post', kwargs={'ordo_id': self.pk, 'classis_id': self.classis.id})
+    def get_absolute_url_ordo1(self):
+        return reverse('ordo_post', kwargs={'ordo_post_id': self.pk, 'classis_id': self.classis.id})
+
+    def get_absolute_url_ordo2(self):
+        return reverse('sidebar_ordo_list', kwargs={'ordo_list_id': self.pk, 'classis_id': self.classis.id})
 
     class Meta:
         verbose_name = 'Отряд животных'
         verbose_name_plural = 'Отряды животных'
         ordering = ['name']
+
+class Familia(models.Model):
+    name = models.TextField('Название семейства')
+    info = models.TextField('Описание семейства', blank=True)
+    ordo = models.ForeignKey(Ordo, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url_familia1(self):
+        return reverse('familia_post', kwargs={'familia_post_id': self.pk, 'classis_id': self.ordo.id, 'ordo_id': self.ordo.id})
+
+    class Meta:
+        verbose_name = 'Семейство животных'
+        verbose_name_plural = 'Семейства животных'
+        ordering = ['name']
+

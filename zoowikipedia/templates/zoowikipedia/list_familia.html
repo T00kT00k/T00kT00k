@@ -4,37 +4,35 @@
 {% block sidebar %}
     <td valign="top" class="left-chapters">
         <ul id="leftchapters">
-            {% if classis_selected == 0 %}
+            {% if ordo_selected == 0 %}
                 <li class="selected">Все категории</li>
             {% else %}
                 <li><a href="{% url 'home' %}">Все категории</a></li>
             {% endif %}
 
-            {% getclass as classis %}
-
             <!--									Тег, выводящий классы на sidebar слева-->
-            {% show_classises classis_selected=classis_selected %}
+            {% show_ordoes ordo_selected=ordo_selected %}
         </ul>
     </td>
 {% endblock %}
 
 {% block content %}
-    {% getclass as classis %}
     <ul class="list-articles">
-        {% for c in classis %}
+        {% for f in familia %}
         <li>
             <br>
-            <div class="link-edit-post"><a href="edit_classis/{{c.id}}">Изменить</a></div>
-            <div class="circle"><a href="delete_classis/{{c.id}}">x</a></div>
+            <div class="link-edit-post"><a href="edit_familia/{{f.id}}">Изменить</a></div>
+            <div class="circle"><a href="delete_familia/{{f.id}}">x</a></div>
             <div class="clear"></div>
 
-            <h2>{{c.name}}</h2>
+
+            <h2>{{f.name}}</h2>
             {% autoescape on %}
-            {{c.info|linebreaks|truncatewords:50}}
+            {{f.info|linebreaks|truncatewords:50}}
             {% endautoescape %}
             <div class="clear"></div>
 
-            <p class="link-read-post"><a href="{{ c.get_absolute_url_classis1 }}">Читать пост</a></p>
+            <p class="link-read-post"><a href="{{ f.get_absolute_url_familia1 }}">Читать пост</a></p>
         </li>
         {% endfor %}
     </ul>

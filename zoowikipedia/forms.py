@@ -16,14 +16,6 @@ class AddClassisForm(forms.ModelForm):
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
         }
 
-    # Валидатор для поля name класса Classis
-    # def clean_name(self):
-    #     name = self.cleaned_data['name']
-    #     if len(name) > 200:
-    #         raise ValidationError('Длина превышает 200 символов')
-    #
-    #     return name
-
 # Форма заполнения информации для класса Ordo
 class AddOrdoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -32,6 +24,20 @@ class AddOrdoForm(forms.ModelForm):
 
     class Meta:
         model = Ordo
+        fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }
+
+# Форма заполнения информации для класса Familia
+class AddFamiliaForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['ordo'].empty_label = "Категория не выбрана"
+
+    class Meta:
+        model = Familia
         fields = '__all__'
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-input'}),

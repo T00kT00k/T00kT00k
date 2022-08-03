@@ -1,0 +1,7 @@
+{% for o in ordo %}
+    {% if o.pk == ordo_selected %}
+        <li class="selected">{{o.name}}</li>
+    {% else %}
+        <li><a href="{{ o.get_absolute_url_ordo2 }}">{{o.name}}</a></li>
+    {% endif %}
+{% endfor %}

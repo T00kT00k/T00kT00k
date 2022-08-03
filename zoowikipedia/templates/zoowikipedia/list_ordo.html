@@ -1,6 +1,23 @@
 {% extends 'zoowikipedia/base.html' %}
+{% load zoowikipedia_tags %}
+
+{% block sidebar %}
+    <td valign="top" class="left-chapters">
+        <ul id="leftchapters">
+            {% if ordo_selected == 0 %}
+                <li class="selected">Все категории</li>
+            {% else %}
+                <li><a href="{% url 'home' %}">Все категории</a></li>
+            {% endif %}
+
+            <!--									Тег, выводящий классы на sidebar слева-->
+            {% show_ordoes ordo_selected=ordo_selected %}
+        </ul>
+    </td>
+{% endblock %}
 
 {% block content %}
+
     <ul class="list-articles">
         {% for o in ordo %}
         <li>
@@ -15,8 +32,10 @@
             {% endautoescape %}
             <div class="clear"></div>
 
-            <p class="link-read-post"><a href="{{ o.get_absolute_url }}">Читать пост</a></p>
+            <p class="link-read-post"><a href="{{ o.get_absolute_url_ordo1 }}">Читать пост</a></p>
         </li>
         {% endfor %}
     </ul>
 {% endblock %}
+
+

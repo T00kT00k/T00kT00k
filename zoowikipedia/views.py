@@ -13,6 +13,7 @@ menu = [{'title': "О сайте", 'url_name': 'about'},
 
 action_menu = [{'title': "Добавить новый класс", 'url_name': "create_classis"},
                {'title': "Добавить новый отряд", 'url_name': "create_ordo"},
+               {'title': "Добавить новое семейство", 'url_name': "create_familia"},
 ]
 
 backtomain = ["Вернуться на главную страницу"]
@@ -71,6 +72,18 @@ def addOrdo(request):
         form = AddOrdoForm()
     return render(request, 'zoowikipedia/create_ordo.html', {'form': form, 'menu': menu, 'title': 'Добавление отряда'})
 
+# Добавление информации о семействе на сайт
+def addFamilia(request):
+    if request.method == 'POST':
+        form = AddFamiliaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = AddFamiliaForm()
+    return render(request, 'zoowikipedia/create_familia.html', {'form': form, 'menu': menu, 'title': 'Добавление семейства'})
+
+
 # Удаление поста о классе
 def delClassis(request, id):
     try:
@@ -88,6 +101,15 @@ def delOrdo(request, id, classis_list_id):
         return redirect('home')
     except Ordo.DoesNotExist:
         return HttpResponseNotFound("<h2>Ordo not found</h2>")
+
+# Удаление поста о семействе
+def delFamilia(request, id, ordo_list_id):
+    try:
+        form = Familia.objects.get(id=id)
+        form.delete()
+        return redirect('home')
+    except Familia.DoesNotExist:
+        return HttpResponseNotFound("<h2>Familia not found</h2>")
 
 # Редактирование поста о классе
 def editClassis(request, id):
@@ -119,13 +141,31 @@ def editOrdo(request, id, classis_list_id):
         else:
             form = AddOrdoForm(instance=form)
             return render(request, "ordo_edit.html", {'form': form})
-    except Classis.DoesNotExist:
+    except Ordo.DoesNotExist:
         return HttpResponseNotFound("<h2>Ordo not found</h2>")
+
+# Редактирование поста о семействе
+def editFamilia(request, id, ordo_list_id, classis_list_id):
+    try:
+        form = Familia.objects.get(id=id)
+        if request.method == "POST":
+            form = AddFamiliaForm(request.POST, instance=form)
+            form.name = request.POST.get("name")
+            form.info = request.POST.get("info")
+            form.ordo = request.POST.get("ordo")
+            form.save()
+            return redirect('home')
+        else:
+            form = AddFamiliaForm(instance=form)
+            return render(request, "familia_edit.html", {'form': form})
+    except Familia.DoesNotExist:
+        return HttpResponseNotFound("<h2>Familia not found</h2>")
 
 # Информационная страница "Страница не найдена"
 def pageNotFound(request, exception):
     return HttpResponseNotFound('<h1>Страница не найдена</h1>')
 
+# Показывает пост о классе животных
 def show_classis(request, classis_post_id):
     post = get_object_or_404(Classis, pk=classis_post_id)
 
@@ -138,20 +178,24 @@ def show_classis(request, classis_post_id):
     }
     return render(request, 'zoowikipedia/classis_post.html', context=context)
 
+# Список отрядов животных на главном экране
 def list_ordo(request, classis_list_id):
+    print("Classis_list_id = ", classis_list_id)
     ordo = Ordo.objects.filter(classis_id=classis_list_id)
+    # for o in ordo:
+    #     print(o.classis_id)
 
     context = {
         'ordo': ordo,
         'menu': menu,
         'title': 'Отображение по классам',
-        'classis_selected': classis_list_id
+        # 'classis_selected': classis_list_id
     }
     return render(request, 'zoowikipedia/list_ordo.html', context=context)
 
 # Показывает пост об отряде животных
-def show_ordo(request, ordo_id, classis_id):
-    post = get_object_or_404(Ordo, pk=ordo_id)
+def show_ordo(request, ordo_post_id, classis_id):
+    post = get_object_or_404(Ordo, pk=ordo_post_id)
 
     # Словарь
     context = {
@@ -161,4 +205,29 @@ def show_ordo(request, ordo_id, classis_id):
         'ordo_selected': post.pk,
     }
     return render(request, 'zoowikipedia/ordo_post.html', context=context)
+
+# Список семейств животных на главном экране
+def list_familia(request, ordo_list_id, classis_id):
+    familia = Familia.objects.filter(ordo_id=ordo_list_id)
+
+    context = {
+        'familia': familia,
+        'menu': menu,
+        'title': 'Отображение по классам',
+        'ordo_selected': ordo_list_id
+    }
+    return render(request, 'zoowikipedia/list_familia.html', context=context)
+
+# Показывает пост об отряде животных
+def show_familia(request, familia_post_id, ordo_id, classis_id):
+    post = get_object_or_404(Familia, pk=familia_post_id)
+
+    # Словарь
+    context = {
+        'post': post,
+        'menu': menu,
+        'title': post.name,
+        'familia_selected': post.pk,
+    }
+    return render(request, 'zoowikipedia/familia_post.html', context=context)
 

@@ -2,6 +2,6 @@
     {% if c.pk == classis_selected %}
         <li class="selected">{{c.name}}</li>
     {% else %}
-        <li><a href="{{ c.get_absolute_url2 }}">{{c.name}}</a></li>
+        <li><a href="{{ c.get_absolute_url_classis2 }}">{{c.name}}</a></li>
     {% endif %}
 {% endfor %}
