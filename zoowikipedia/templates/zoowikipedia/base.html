@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load zoowikipedia_tags %}
 
 <!--Используется спецификация HTML5-->
 <!DOCTYPE html>
@@ -7,46 +7,43 @@
 <!--Начало дока-->
 <html>
 
-	<!--Блок со служебной инфой-->
+<!--	Блок со служебной инфой-->
 	<head>
-		<!--Название странички-->
+<!--		Название странички-->
 		<title>{{title}}</title>
-		<!--Установка связи с внешним документом:
-			1. тип данных подключаемого файла
-			2. путь к связываемому файлу
-			3. стиль для страницы
-		-->
+<!--			Установка связи с внешним документом:-->
+<!--			1. тип данных подключаемого файла-->
+<!--			2. путь к связываемому файлу-->
+<!--			3. стиль для страницы-->
 		<link type="text/css" href="{% static 'zoowikipedia/css/styles.css' %}" rel="stylesheet" />
-		<!--Мета тег занимается:
-		 	1. типом содержания
-		 	2. а именно текстом
-		 	3. документ utf-8
-		 -->
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">												<!--С помощью meta устанавливается служебная инфа-->
-		<!--1. Стиль для иконки
-			2. Ссылка на иконку
-			3. Тип изображения
-		-->
+<!--			Мета тег занимается:-->
+<!--		 	1. типом содержания-->
+<!--		 	2. а именно текстом-->
+<!--		 	3. документ utf-8-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!--			1. Стиль для иконки-->
+<!--			2. Ссылка на иконку-->
+<!--			3. Тип изображения-->
 		<link rel="shortcut icon" href="{% static 'zoowikipedia/images/favicon.ico' %}" type="image/x-icon"/>
-		<!--Мета тег занимается областью экрана, которая видна всегда-->
+<!--		Мета тег занимается областью экрана, которая видна всегда-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">		<!--Информация о документе-->
 	</head>
 
-	<!--___Тело_документа___-->
+<!--	___Тело_документа___-->
 	<body>
-		<table class="table-page" border=0 cellpadding="0" cellspacing="0">												<!--Таблица 1-->
-			<tr>																											<!--Строка 1 таблицы 1-->
-				<!--Выравнивание содержимого по верхнему краю строки-->
-				<td valign=top>																									<!--Строка 1 столбец 1 таблицы 1-->
+		<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+			<tr>
+<!--				Выравнивание содержимого по верхнему краю строки-->
+				<td valign=top>
 					{% block mainmenu %}
-						<!--Заголовок-->
+<!--						Заголовок-->
 						<div class="header">
 							<ul id="mainmenu" class="mainmenu">
 								<!--Иконка в верхнем левом углу является гиперссылкой-->
 								<li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
 								{% for m in menu %}
 									{% if not forloop.last %}
-										<!--Надписи являются гиперссылками-->
+<!--										Надписи являются гиперссылками-->
 										<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
 									{% else %}
 										<li class="last"><a href="{% url m.url_name %}">{{m.title}}</a></li>
@@ -58,58 +55,51 @@
 					{% endblock mainmenu %}
 
 
-					<table class="table-content" border=0 cellpadding="0" cellspacing="0">								<!--Таблица 2-->
-						<tr>																								<!--Строка 1 таблицы 2-->
-							<!-- Sidebar слева -->
-							<td valign="top" class="left-chapters">																<!--Строка 1 столбец 1 таблицы 2-->
-
-
+					<table class="table-content" border=0 cellpadding="0" cellspacing="0">
+						<tr>
+<!--							 Sidebar слева-->
+							<td valign="top" class="left-chapters">
 								<ul id="leftchapters">
 
 									{% if classis_selected == 0 %}
-										<li class = "selected"> Все классы </li>
+											<li class="selected">Все категории</li>
 									{% else %}
-										<li><a href="{% url 'home' %}"> Все классы </a></li>
+											<li><a href="{% url 'home' %}">Все категории</a></li>
 									{% endif %}
 
-									{% for c in classis %}
-										{% if c.pk == classis_selected %}
-											<li class="selected">{{c.name}}</li>
-										{% else %}
-											<li><a href="{{ c.get_absolute_url2 }}">{{c.name}}</a></li>
-										{% endif %}
-									{% endfor %}
-
+									{% getclass as classis %}
+<!--									Тег, выводящий классы на sidebar слева-->
+									{% show_classises classis_selected=classis_selected %}
 								</ul>
-							</td>																								<!--Конец строки 1 столбца 1 таблицы 2-->
-							<!-- Конец Sidebar'а -->
-							<td valign="top" class="content">																	<!--Строка 1 столбец 2 таблицы 2-->
-								<!-- Хлебные крошки -->
+							</td>
+<!--							 Конец Sidebar'а-->
+							<td valign="top" class="content">
+<!--								 Хлебные крошки-->
 								{% block breadcrumbs %}
 								{% endblock %}
 
-								<!-- Блок контента -->
+<!--								 Блок контента-->
 								<div class="content-text">
 									{% block content %}
 									{% endblock %}
 								</div>
-								<!-- Конец блока контента -->
-							</td>																								<!--Конец строки 1 столбца 1 таблицы 2-->
-						</tr>																								<!--Конец строки 1 таблицы 2-->
-					</table>																							<!--Конец таблицы 2-->
-				</td>																											<!--Конец строки 1 столбца 1 таблицы 1-->
-			</tr>																											<!--Конец строки 1 таблицы 1-->
+<!--								 Конец блока контента-->
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
 
-			<!-- Footer -->
-			<tr>																											<!--Строка 2 таблицы 1-->
-				<!--Выравнивание содержимого по верхнему краю строки-->
-				<td valign=top>																									<!--Строка 2 столбец 1 таблицы 1-->
+<!--			 Footer-->
+			<tr>
+<!--				Выравнивание содержимого по верхнему краю строки-->
+				<td valign=top>
 					<div id="footer">
 						<p>&copy; 2022 Частичное или полное копирование информации с данного сайта для распространения на других ресурсах, в том числе и бумажных, строго запрещено.</p>
 					</div>
-				</td>																											<!--Конец строки 2 столбца 1 таблицы 1-->
-			</tr>																											<!--Конец строки 2 таблицы 1-->
-		</table>																										<!--Конец таблицы 1-->
-	<!-- Конец footer'а и страницы -->
+				</td>
+			</tr>
+		</table>
+<!--	 Конец footer'а и страницы-->
 	</body>
 </html>

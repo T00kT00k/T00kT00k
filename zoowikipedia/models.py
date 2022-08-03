@@ -10,6 +10,9 @@ class Classis(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):  # Тут мы создали новый метод
+        return reverse('post_detail', args=[str(self.id)])
+
     def get_absolute_url1(self):
         return reverse('classis_post', kwargs={'classis_post_id': self.pk})
 

@@ -55,7 +55,9 @@ ROOT_URLCONF = 'zoowiki.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'zoowikipedia/templates/zoowikipedia'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

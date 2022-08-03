@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for a in action_menu %}
+        {% if not forloop.last %}
+            <p class="link-add-post"><a href="{% url a.url_name %}">{{a.title}}</a></p>
+        {% else %}
+            <p class="link-add-post"><a href="{% url a.url_name %}">{{a.title}}</a></p>
+        {% endif %}
+    {% endfor %}
+
+{% endblock content %}

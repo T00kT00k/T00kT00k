@@ -30,12 +30,53 @@ img.img-article-left.thumb {
 	height: auto;
 }
 
+div.circle {
+    text-align: right
+}
+div.circle a{
+        float: right;
+        border-radius: 1000%;
+        width: 30px;
+        height: 30px;
+        display:inline-block;
+        line-height:27px;
+        vertical-align:center;
+        text-align: center;
+        background: red;
+        color:#fff;
+        text-decoration: none;
+    }
+
+div.link-edit-post {
+	text-align: left;
+}
+div.link-edit-post a{
+    float: left;
+    width: 100px;
+    min-width: 100px;
+	padding: 10px 20px;
+	background: orange;
+	color: #fff;
+	text-decoration: none;
+}
+
+
 p.link-read-post {
 	text-align: right;
 }
 p.link-read-post a {
 	padding: 10px;
-	min-width: 100px;
+	background: #333671;
+	color: #fff;
+	text-decoration: none;
+}
+
+p.link-add-post {
+	text-align: center;
+}
+p.link-add-post a {
+
+	padding: 10px 20px;
 	background: #333671;
 	color: #fff;
 	text-decoration: none;
