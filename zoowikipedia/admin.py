@@ -18,7 +18,20 @@ class FamiliaAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name')
     search_fields = ('name', 'info')
 
+class GenusAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')
+    search_fields = ('name', 'info')
+
+
+class SpeciesAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')
+    search_fields = ('name', 'info')
+
 admin.site.register(Classis, ClassisAdmin)
 admin.site.register(Ordo, OrdoAdmin)
 admin.site.register(Familia,FamiliaAdmin)
+admin.site.register(Genus,GenusAdmin)
+admin.site.register(Species,SpeciesAdmin)
 

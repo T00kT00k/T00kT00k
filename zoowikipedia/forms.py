@@ -57,3 +57,17 @@ class AddGenusForm(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-input'}),
             'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
         }
+
+# Форма заполнения информации для класса Species
+class AddSpeciesForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['genus'].empty_label = "Категория не выбрана"
+
+    class Meta:
+        model = Species
+        fields = '__all__'
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-input'}),
+            'content': forms.Textarea(attrs={'cols': 60, 'rows': 10}),
+        }

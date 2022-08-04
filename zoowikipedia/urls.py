@@ -22,6 +22,8 @@ urlpatterns = [
     path('create_familia/', addFamilia, name='create_familia'),
     # Страница для добавления нового рода
     path('create_genus/', addGenus, name='create_genus'),
+    # Страница для добавления нового вида
+    path('create_species/', addSpecies, name='create_species'),
 
 
 
@@ -33,6 +35,8 @@ urlpatterns = [
     path('classis_list/<int:classis_list_id>/ordo_list/<int:ordo_list_id>/delete_familia/<int:id>/', delFamilia),
     # Удаление поста про род
     path('classis_list/<int:classis_list_id>/ordo_list/<int:ordo_list_id>/familia_list/<int:familia_list_id>/delete_genus/<int:id>/', delGenus),
+    # Удаление поста про вид
+    path('classis_list/<int:classis_list_id>/ordo_list/<int:ordo_list_id>/familia_list/<int:familia_list_id>/genus_list/<int:genus_list_id>/delete_species/<int:id>/', delSpecies),
 
 
 
@@ -44,6 +48,8 @@ urlpatterns = [
     path('classis_list/<int:classis_list_id>/ordo_list/<int:ordo_list_id>/edit_familia/<int:id>/', editFamilia),
     # Редактирование поста про род
     path('classis_list/<int:classis_list_id>/ordo_list/<int:ordo_list_id>/familia_list/<int:familia_list_id>/edit_genus/<int:id>/', editGenus),
+    # Редактирование поста про вид
+    path('classis_list/<int:classis_list_id>/ordo_list/<int:ordo_list_id>/familia_list/<int:familia_list_id>/genus_list/<int:genus_list_id>/edit_species/<int:id>/', editSpecies),
 
 
 
@@ -71,4 +77,9 @@ urlpatterns = [
 
     # Страница с постом выбранного рода
     path('classis_list/<int:classis_id>/ordo_list/<int:ordo_id>/familia_list/<int:familia_id>/genus_post/<int:genus_post_id>/', show_genus, name='genus_post'),
+    # Виды выбранного в левом сайдбаре рода
+    path('classis_list/<int:classis_id>/ordo_list/<int:ordo_id>/familia_list/<int:familia_id>/genus_list/<int:genus_list_id>/', list_species, name='sidebar_genus_list'),
+
+    # Страница с постом выбранного рода
+    path('classis_list/<int:classis_id>/ordo_list/<int:ordo_id>/familia_list/<int:familia_id>/genus_list/<int:genus_id>/species_post/<int:species_post_id>/', show_species, name='species_post'),
 ]

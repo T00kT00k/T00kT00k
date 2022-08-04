@@ -27,6 +27,13 @@ def get_familia(filter=None):
    else:
        return Familia.objects.filter(pk=filter)
 
+@register.simple_tag(name='getgen')
+def get_genus(filter=None):
+   if not filter:
+       return Genus.objects.all()
+   else:
+       return Genus.objects.filter(pk=filter)
+
 # Теги, с помощью которых можно возвращать фрагмент html-страницы
 # {% show_classises %} - вывод фрагмента без изменений
 # {% show_classises '-name' classis_selected %} - задается сортировка по имени в обратном порядке
@@ -56,3 +63,12 @@ def show_families(sort=None, familia_selected=0):
        familia = Familia.objects.order_by(sort)
 
    return {"familia": familia, "familia_selected": familia_selected}
+
+@register.inclusion_tag('zoowikipedia/sidebar_list_genus.html')
+def show_genuses(sort=None, genus_selected=0):
+   if not sort:
+       genus = Genus.objects.all()
+   else:
+       genus = Genus.objects.order_by(sort)
+
+   return {"genus": genus, "genus_selected": genus_selected}

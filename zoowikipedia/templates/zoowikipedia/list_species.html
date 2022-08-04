@@ -18,21 +18,21 @@
 
 {% block content %}
     <ul class="list-articles">
-        {% for g in genus %}
+        {% for s in species %}
         <li>
             <br>
-            <div class="link-edit-post"><a href="edit_genus/{{g.id}}">Изменить</a></div>
-            <div class="circle"><a href="delete_genus/{{g.id}}">x</a></div>
+            <div class="link-edit-post"><a href="edit_species/{{s.id}}">Изменить</a></div>
+            <div class="circle"><a href="delete_species/{{s.id}}">x</a></div>
             <div class="clear"></div>
 
 
-            <h2>{{g.name}}</h2>
+            <h2>{{s.name}}</h2>
             {% autoescape on %}
-            {{g.info|linebreaks|truncatewords:50}}
+            {{s.info|linebreaks|truncatewords:50}}
             {% endautoescape %}
             <div class="clear"></div>
 
-            <p class="link-read-post"><a href="{{ g.get_absolute_url_genus1 }}">Читать пост</a></p>
+            <p class="link-read-post"><a href="{{ s.get_absolute_url_species1 }}">Читать пост</a></p>
         </li>
         {% endfor %}
     </ul>

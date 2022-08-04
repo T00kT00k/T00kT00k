@@ -70,8 +70,26 @@ class Genus(models.Model):
     def get_absolute_url_genus1(self):
         return reverse('genus_post', kwargs={'genus_post_id': self.pk, 'classis_id': self.familia.id, 'ordo_id': self.familia.id, 'familia_id': self.familia.id})
 
+    def get_absolute_url_genus2(self):
+        return reverse('sidebar_genus_list', kwargs={'genus_list_id': self.pk, 'classis_id': self.familia.id, 'ordo_id': self.familia.id, 'familia_id': self.familia.id})
+
     class Meta:
         verbose_name = 'Род животных'
         verbose_name_plural = 'Роды животных'
         ordering = ['name']
 
+class Species(models.Model):
+    name = models.TextField('Название вида')
+    info = models.TextField('Описание вида', blank=True)
+    genus = models.ForeignKey(Genus, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url_species1(self):
+        return reverse('species_post', kwargs={'species_post_id': self.pk, 'classis_id': self.genus.id, 'ordo_id': self.genus.id,'familia_id': self.genus.id, 'genus_id': self.genus.id})
+
+    class Meta:
+        verbose_name = 'Вид животных'
+        verbose_name_plural = 'Виды животных'
+        ordering = ['name']

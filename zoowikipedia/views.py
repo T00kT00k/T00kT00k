@@ -15,6 +15,7 @@ action_menu = [{'title': "Добавить новый класс", 'url_name': "
                {'title': "Добавить новый отряд", 'url_name': "create_ordo"},
                {'title': "Добавить новое семейство", 'url_name': "create_familia"},
                {'title': "Добавить новый род", 'url_name': "create_genus"},
+               {'title': "Добавить новый вид", 'url_name': "create_species"},
 ]
 
 backtomain = ["Вернуться на главную страницу"]
@@ -94,6 +95,17 @@ def addGenus(request):
         form = AddGenusForm()
     return render(request, 'zoowikipedia/create_genus.html', {'form': form, 'menu': menu, 'title': 'Добавление рода'})
 
+# Добавление информации о виде на сайт
+def addSpecies(request):
+    if request.method == 'POST':
+        form = AddSpeciesForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = AddSpeciesForm()
+    return render(request, 'zoowikipedia/create_species.html', {'form': form, 'menu': menu, 'title': 'Добавление вида'})
+
 
 # Удаление поста о классе
 def delClassis(request, id):
@@ -114,7 +126,7 @@ def delOrdo(request, id, classis_list_id):
         return HttpResponseNotFound("<h2>Ordo not found</h2>")
 
 # Удаление поста о семействе
-def delFamilia(request, id, ordo_list_id):
+def delFamilia(request, id, ordo_list_id, classis_list_id):
     try:
         form = Familia.objects.get(id=id)
         form.delete()
@@ -123,13 +135,22 @@ def delFamilia(request, id, ordo_list_id):
         return HttpResponseNotFound("<h2>Familia not found</h2>")
 
 # Удаление поста о роде
-def delGenus(request, id, familia_list_id):
+def delGenus(request, id, familia_list_id, ordo_list_id, classis_list_id):
     try:
         form = Genus.objects.get(id=id)
         form.delete()
         return redirect('home')
     except Genus.DoesNotExist:
         return HttpResponseNotFound("<h2>Genus not found</h2>")
+
+# Удаление поста о виде
+def delSpecies(request, id, genus_list_id, familia_list_id, ordo_list_id, classis_list_id):
+    try:
+        form = Species.objects.get(id=id)
+        form.delete()
+        return redirect('home')
+    except Species.DoesNotExist:
+        return HttpResponseNotFound("<h2>Species not found</h2>")
 
 # Редактирование поста о классе
 def editClassis(request, id):
@@ -189,7 +210,7 @@ def editGenus(request, id, familia_list_id, ordo_list_id, classis_list_id):
             form = AddGenusForm(request.POST, instance=form)
             form.name = request.POST.get("name")
             form.info = request.POST.get("info")
-            form.familia = request.POST.get("ordo")
+            form.familia = request.POST.get("familia")
             form.save()
             return redirect('home')
         else:
@@ -197,6 +218,23 @@ def editGenus(request, id, familia_list_id, ordo_list_id, classis_list_id):
             return render(request, "genus_edit.html", {'form': form})
     except Genus.DoesNotExist:
         return HttpResponseNotFound("<h2>Genus not found</h2>")
+
+# Редактирование поста о роде
+def editSpecies(request, id, genus_list_id, familia_list_id, ordo_list_id, classis_list_id):
+    try:
+        form = Species.objects.get(id=id)
+        if request.method == "POST":
+            form = AddSpeciesForm(request.POST, instance=form)
+            form.name = request.POST.get("name")
+            form.info = request.POST.get("info")
+            form.genus = request.POST.get("genus")
+            form.save()
+            return redirect('home')
+        else:
+            form = AddSpeciesForm(instance=form)
+            return render(request, "species_edit.html", {'form': form})
+    except Species.DoesNotExist:
+        return HttpResponseNotFound("<h2>Species not found</h2>")
 
 # Информационная страница "Страница не найдена"
 def pageNotFound(request, exception):
@@ -293,3 +331,27 @@ def show_genus(request, genus_post_id, familia_id, ordo_id, classis_id):
     }
     return render(request, 'zoowikipedia/genus_post.html', context=context)
 
+# Список видов животных на главном экране
+def list_species(request, genus_list_id, familia_id, ordo_id, classis_id):
+    species = Species.objects.filter(genus_id=genus_list_id)
+
+    context = {
+        'species': species,
+        'menu': menu,
+        'title': 'Отображение по классам',
+        'genus_selected': genus_list_id
+    }
+    return render(request, 'zoowikipedia/list_species.html', context=context)
+
+# Показывает пост о виде животных
+def show_species(request, species_post_id, genus_id, familia_id, ordo_id, classis_id):
+    post = get_object_or_404(Species, pk=species_post_id)
+
+    # Словарь
+    context = {
+        'post': post,
+        'menu': menu,
+        'title': post.name,
+        'species_selected': post.pk,
+    }
+    return render(request, 'zoowikipedia/species_post.html', context=context)

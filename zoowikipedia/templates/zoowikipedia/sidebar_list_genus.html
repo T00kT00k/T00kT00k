@@ -1,0 +1,7 @@
+{% for g in genus %}
+    {% if g.pk == genus_selected %}
+        <li class="selected">{{g.name}}</li>
+    {% else %}
+        <li><a href="{{ g.get_absolute_url_genus2 }}">{{g.name}}</a></li>
+    {% endif %}
+{% endfor %}
