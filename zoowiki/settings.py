@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'zoowikipedia.apps.ZoowikipediaConfig'
+    'zoowikipedia.apps.ZoowikipediaConfig',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [

@@ -255,16 +255,12 @@ def show_classis(request, classis_post_id):
 
 # Список отрядов животных на главном экране
 def list_ordo(request, classis_list_id):
-    print("Classis_list_id = ", classis_list_id)
     ordo = Ordo.objects.filter(classis_id=classis_list_id)
-    # for o in ordo:
-    #     print(o.classis_id)
 
     context = {
         'ordo': ordo,
         'menu': menu,
         'title': 'Отображение по классам',
-        # 'classis_selected': classis_list_id
     }
     return render(request, 'zoowikipedia/list_ordo.html', context=context)
 
