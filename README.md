@@ -25,3 +25,7 @@
 ![New post 1](https://user-images.githubusercontent.com/109878600/182676233-608584ce-c843-430b-aad2-8c51e8253210.png)
 
 ![New post 2](https://user-images.githubusercontent.com/109878600/182676462-ef32f82a-0aad-478b-b912-400a628cfebe.png)
+
+<h1>Scheme of DB modules:</h1>
+
+![zoowikipedia](https://user-images.githubusercontent.com/109878600/182860877-703812fa-a7ef-44af-94f9-bbd74be8cfa0.png)
